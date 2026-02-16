@@ -1,19 +1,23 @@
 {
-  "name": "@clawmarket/openclaw-plugin",
+  "name": "clawmarket-plugin",
   "version": "0.1.0",
   "description": "ClawMarket plugin for OpenClaw - Buy AI compute from decentralized marketplace",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "type": "module",
+  "bin": {
+    "clawmarket": "./dist/cli.js"
+  },
   "scripts": {
     "build": "tsc",
     "prepublishOnly": "npm run build"
   },
-  "keywords": ["clawmarket", "openclaw", "ai", "marketplace", "decentralized"],
+  "keywords": ["clawmarket", "openclaw", "ai", "marketplace", "decentralized", "web3"],
   "author": "ClawMarket Team",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/anthropics/clawmarket-plugin.git"
+    "url": "https://github.com/luoluo3310/clawmarket-plugin.git"
   },
   "dependencies": {
     "@noble/hashes": "^1.5.0",
@@ -29,5 +33,9 @@
   "engines": {
     "node": ">=20.0.0"
   },
-  "files": ["dist", "README.md"]
+  "files": ["dist", "README.md"],
+  "openclaw": {
+    "type": "provider",
+    "models": ["claude-opus-4", "claude-sonnet-4", "gpt-4"]
+  }
 }

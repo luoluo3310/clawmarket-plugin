@@ -4,50 +4,11 @@
  * 一键安装，自动配置
  */
 
-export { ClawMarketProvider, clawmarket, initClawMarket } from './provider.js';
+// 核心导出
+export { ClawMarketProvider, initClawMarket } from './provider.js';
+export { ClawMarketOpenClawProvider, createProvider, metadata } from './openclaw-adapter.js';
 export { generateKeyPair, encrypt, decrypt } from './crypto/e2ee.js';
 export * from './types/index.js';
 
-// CLI 入口
-import { ClawMarketProvider } from './provider.js';
-
-async function main() {
-  console.log('');
-  console.log('  ██████╗██╗      █████╗ ██╗    ██╗███╗   ███╗ █████╗ ██████╗ ██╗  ██╗███████╗████████╗');
-  console.log(' ██╔════╝██║     ██╔══██╗██║    ██║████╗ ████║██╔══██╗██╔══██╗██║ ██╔╝██╔════╝╚══██╔══╝');
-  console.log(' ██║     ██║     ███████║██║ █╗ ██║██╔████╔██║███████║██████╔╝█████╔╝ █████╗     ██║   ');
-  console.log(' ██║     ██║     ██╔══██║██║███╗██║██║╚██╔╝██║██╔══██║██╔══██╗██╔═██╗ ██╔══╝     ██║   ');
-  console.log(' ╚██████╗███████╗██║  ██║╚███╔███╔╝██║ ╚═╝ ██║██║  ██║██║  ██║██║  ██╗███████╗   ██║   ');
-  console.log('  ╚═════╝╚══════╝╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝   ╚═╝   ');
-  console.log('');
-  console.log('  去中心化 AI 算力市场 - 让每个人都能用上最好的 AI');
-  console.log('');
-  
-  const provider = new ClawMarketProvider();
-  const status = await provider.initialize();
-  
-  if (!status.ready) {
-    console.log('正在等待充值...');
-    console.log('充值地址:', status.address);
-    console.log('网络: Base Sepolia');
-    console.log('代币: USDC');
-    console.log('');
-    
-    await provider.waitForBalance();
-  }
-  
-  console.log('ClawMarket 已就绪！');
-  console.log('');
-  console.log('使用方法:');
-  console.log('  在 OpenClaw 配置中添加:');
-  console.log('');
-  console.log('  providers:');
-  console.log('    clawmarket:');
-  console.log('      type: clawmarket');
-  console.log('');
-}
-
-// 如果直接运行
-if (process.argv[1]?.includes('clawmarket')) {
-  main().catch(console.error);
-}
+// 默认导出 OpenClaw provider 创建函数
+export { createProvider as default } from './openclaw-adapter.js';
