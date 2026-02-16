@@ -1,14 +1,4 @@
-/**
- * ClawMarket OpenClaw Plugin
- * 
- * 一键安装，自动配置
- */
-
-export { ClawMarketProvider, clawmarket, initClawMarket } from './provider.js';
-export { generateKeyPair, encrypt, decrypt } from './crypto/e2ee.js';
-export * from './types/index.js';
-
-// CLI 入口
+#!/usr/bin/env node
 import { ClawMarketProvider } from './provider.js';
 
 async function main() {
@@ -37,17 +27,6 @@ async function main() {
   }
   
   console.log('ClawMarket 已就绪！');
-  console.log('');
-  console.log('使用方法:');
-  console.log('  在 OpenClaw 配置中添加:');
-  console.log('');
-  console.log('  providers:');
-  console.log('    clawmarket:');
-  console.log('      type: clawmarket');
-  console.log('');
 }
 
-// 如果直接运行
-if (process.argv[1]?.includes('clawmarket')) {
-  main().catch(console.error);
-}
+main().catch(console.error);

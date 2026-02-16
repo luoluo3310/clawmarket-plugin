@@ -8,6 +8,7 @@ import { randomBytes } from 'crypto';
 export interface KeyPair {
   privateKey: Uint8Array;
   publicKey: Uint8Array;
+  secretKey: Uint8Array; // alias for privateKey
 }
 
 /**
@@ -16,7 +17,7 @@ export interface KeyPair {
 export function generateKeyPair(): KeyPair {
   const privateKey = secp256k1.utils.randomPrivateKey();
   const publicKey = secp256k1.getPublicKey(privateKey, false); // uncompressed
-  return { privateKey, publicKey };
+  return { privateKey, publicKey, secretKey: privateKey };
 }
 
 /**
