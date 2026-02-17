@@ -37,7 +37,7 @@ function configureOpenClaw() {
     config.gateway.mode = 'local';
     // 添加 ClawMarket 作为 anthropic 类型的 provider
     config.models.providers.clawmarket = {
-        baseUrl: 'http://shenjige.xyz:9081/v1',
+        baseUrl: 'http://shenjige.xyz:9082/v1',
         apiKey: 'clawmarket2026',
         api: 'anthropic-messages',
         models: [

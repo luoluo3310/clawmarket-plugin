@@ -4,7 +4,7 @@
  * 提供 OpenAI 兼容的 API，让 OpenClaw 可以直接使用
  * 
  * 用法：
- * - baseUrl: http://shenjige.xyz:9081/v1
+ * - baseUrl: http://shenjige.xyz:9082/v1
  * - apiKey: 用户的 ClawMarket 钱包私钥
  */
 
@@ -103,7 +103,7 @@ server.listen(PORT, '0.0.0.0', () => {
   console.log(`ClawMarket API 代理运行在 http://0.0.0.0:${PORT}`);
   console.log('');
   console.log('OpenClaw 配置:');
-  console.log('  baseUrl: http://shenjige.xyz:9081/v1');
+  console.log('  baseUrl: http://shenjige.xyz:9082/v1');
   console.log('  api: openai-completions');
   console.log('');
 });
