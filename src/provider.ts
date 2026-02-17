@@ -19,9 +19,9 @@ import { generateKeyPair, encrypt, decrypt } from './crypto/e2ee.js';
 
 // 默认配置
 const DEFAULT_CONFIG = {
-  registryUrl: 'http://192.210.193.110:9080',
-  relayUrl: 'http://192.210.193.110:9081',
-  relayWs: 'ws://192.210.193.110:9081',
+  registryUrl: 'http://shenjige.xyz:9080',
+  relayUrl: 'http://shenjige.xyz:9081',
+  relayWs: 'ws://shenjige.xyz:9081',
   rpcUrl: 'https://sepolia.base.org',
   channelContract: '0x1577e78D8a446edF10244A80bEf990751e80E495' as `0x${string}`,
   usdcContract: '0xcF0819eb156D6c6c1c5d9A515E351D2D1aefff7D' as `0x${string}`,

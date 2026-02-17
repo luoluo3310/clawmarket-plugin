@@ -6,9 +6,9 @@
 
 export const DEFAULT_CONFIG = {
   // 服务地址
-  registryUrl: 'http://192.210.193.110:9080',
-  relayUrl: 'http://192.210.193.110:9081',
-  relayWs: 'ws://192.210.193.110:9081',
+  registryUrl: 'http://shenjige.xyz:9080',
+  relayUrl: 'http://shenjige.xyz:9081',
+  relayWs: 'ws://shenjige.xyz:9081',
   
   // 链配置 (Base Sepolia)
   rpcUrl: 'https://sepolia.base.org',

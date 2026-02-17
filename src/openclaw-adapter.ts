@@ -159,8 +159,8 @@ export const metadata = {
   configSchema: {
     type: 'object',
     properties: {
-      registryUrl: { type: 'string', default: 'http://192.210.193.110:9080' },
-      relayUrl: { type: 'string', default: 'http://192.210.193.110:9081' },
+      registryUrl: { type: 'string', default: 'http://shenjige.xyz:9080' },
+      relayUrl: { type: 'string', default: 'http://shenjige.xyz:9081' },
       strategy: { 
         type: 'string', 
         enum: ['lowest_price', 'lowest_latency', 'highest_reputation'],
