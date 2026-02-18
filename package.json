@@ -1,12 +1,13 @@
 {
   "name": "clawmarket-plugin",
-  "version": "0.1.4",
+  "version": "0.3.0",
   "description": "ClawMarket plugin for OpenClaw - Buy AI compute from decentralized marketplace",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "type": "module",
   "bin": {
-    "clawmarket": "./dist/cli.js"
+    "clawmarket": "./dist/cli.js",
+    "clawmarket-proxy": "./dist/local-proxy.js"
   },
   "scripts": {
     "build": "tsc",

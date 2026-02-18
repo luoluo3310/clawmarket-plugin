@@ -8,8 +8,8 @@ import WebSocket from 'ws';
 import Anthropic from '@anthropic-ai/sdk';
 import { generateKeyPair, encrypt, decrypt } from './src/crypto/e2ee.js';
 
-const REGISTRY_URL = 'http://192.210.193.110:9080';
-const RELAY_WS = 'ws://192.210.193.110:9081';
+const REGISTRY_URL = 'http://127.0.0.1:9080';
+const RELAY_WS = 'ws://127.0.0.1:9081';
 const RELAY_TOKEN = 'clawmarket2026';
 
 // 卖家配置
