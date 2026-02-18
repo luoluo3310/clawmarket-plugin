@@ -171,8 +171,78 @@ async function ensureApproval() {
         console.log('[链上] Approved!');
     }
 }
+/**
+ * 从链上恢复已有通道
+ * 查询最近的 ChannelOpened 事件，找到买家的活跃通道
+ */
+async function recoverChannelFromChain(sellerAddress) {
+    try {
+        const buyerAddress = wallet.address.toLowerCase();
+        const buyerTopic = '0x' + buyerAddress.slice(2).padStart(64, '0');
+        const sellerTopic = '0x' + sellerAddress.slice(2).toLowerCase().padStart(64, '0');
+        // 获取最新区块
+        const latestBlock = await publicClient.getBlockNumber();
+        const fromBlock = latestBlock - 10000n > 0n ? latestBlock - 10000n : 0n;
+        // 查询 ChannelOpened 事件 (buyer 在 topic[2], seller 在 topic[3])
+        const logs = await publicClient.getLogs({
+            address: CHANNEL_CONTRACT,
+            fromBlock,
+            toBlock: latestBlock,
+            args: {},
+        });
+        // 从后往前找，找到最新的匹配通道
+        for (let i = logs.length - 1; i >= 0; i--) {
+            const log = logs[i];
+            if (log.topics.length < 4)
+                continue;
+            const logBuyer = '0x' + (log.topics[2]?.slice(26) || '');
+            const logSeller = '0x' + (log.topics[3]?.slice(26) || '');
+            if (logBuyer.toLowerCase() === buyerAddress && logSeller.toLowerCase() === sellerAddress.toLowerCase()) {
+                const channelId = log.topics[1];
+                // 查询链上通道状态
+                const channelData = await publicClient.readContract({
+                    address: CHANNEL_CONTRACT,
+                    abi: CHANNEL_ABI,
+                    functionName: 'channels',
+                    args: [channelId]
+                });
+                const isActive = channelData[6];
+                if (!isActive)
+                    continue;
+                const deposit = channelData[2];
+                const settledAmount = channelData[3];
+                const expiresAt = Number(channelData[4]);
+                if (expiresAt < Math.floor(Date.now() / 1000))
+                    continue; // 已过期
+                const channel = {
+                    channelId,
+                    seller: sellerAddress,
+                    deposit,
+                    spent: settledAmount,
+                    nonce: 0n, // 从 0 开始，Gateway 会接受更高的 nonce
+                    expiresAt,
+                };
+                channels.set(sellerAddress.toLowerCase(), channel);
+                saveChannels();
+                console.log('[恢复] 从链上恢复通道:', channelId.slice(0, 18) + '...');
+                console.log('[恢复] 存款:', formatUnits(deposit, 6), 'USDC, 到期:', new Date(expiresAt * 1000).toLocaleString());
+                return channel;
+            }
+        }
+    }
+    catch (e) {
+        console.log('[恢复] 链上查询失败:', e.message);
+    }
+    return null;
+}
 async function openChannel(sellerAddress) {
     console.log('[链上] 开通道到卖家:', sellerAddress);
+    // 先尝试从链上恢复已有通道
+    const recovered = await recoverChannelFromChain(sellerAddress);
+    if (recovered) {
+        console.log('[链上] 找到已有通道，无需重新开通道');
+        return recovered;
+    }
     // 检查 ETH 余额（gas）
     const ethBalance = await getETHBalance();
     if (ethBalance < parseUnits('0.001', 18)) {
