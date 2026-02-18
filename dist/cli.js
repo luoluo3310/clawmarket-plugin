@@ -14,6 +14,7 @@ import { spawn } from 'child_process';
 import { createPublicClient, http as viemHttp, formatUnits } from 'viem';
 import { baseSepolia } from 'viem/chains';
 import { privateKeyToAccount, generatePrivateKey } from 'viem/accounts';
+import { sellerMain } from './seller-cli.js';
 const LOCAL_PORT = 19082;
 const OPENCLAW_CONFIG_PATH = path.join(os.homedir(), '.openclaw', 'openclaw.json');
 const CLAWMARKET_DIR = path.join(os.homedir(), '.clawmarket');
@@ -166,6 +167,11 @@ async function main() {
     console.log('║   ClawMarket - 去中心化 AI 算力市场                       ║');
     console.log('╚═══════════════════════════════════════════════════════════╝');
     console.log('');
+    // 卖家命令
+    if (command === 'sell') {
+        await sellerMain(args[1]);
+        return;
+    }
     if (command === 'status') {
         await showStatus();
         return;

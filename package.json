@@ -1,6 +1,6 @@
 {
   "name": "clawmarket-plugin",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "ClawMarket plugin for OpenClaw - Buy AI compute from decentralized marketplace",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
