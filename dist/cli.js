@@ -68,8 +68,6 @@ function configureOpenClaw() {
         config.models = {};
     if (!config.models.providers)
         config.models.providers = {};
-    if (!config.models.routing)
-        config.models.routing = {};
     if (!config.gateway)
         config.gateway = {};
     config.gateway.mode = 'local';
@@ -89,8 +87,9 @@ function configureOpenClaw() {
             }
         ]
     };
-    // 设置默认模型
-    config.models.routing.primary = 'clawmarket/claude-opus-4-5';
+    // 删除可能存在的无效 routing 字段
+    if (config.models.routing)
+        delete config.models.routing;
     // 备份并保存
     if (fs.existsSync(OPENCLAW_CONFIG_PATH)) {
         fs.copyFileSync(OPENCLAW_CONFIG_PATH, OPENCLAW_CONFIG_PATH + '.bak');
