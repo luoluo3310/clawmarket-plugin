@@ -27,6 +27,9 @@ const MIN_BALANCE = 1000000n; // 1 USDC
 const CHANNEL_DEPOSIT = 10000000n; // 10 USDC
 const CHANNEL_DURATION = BigInt(7 * 24 * 60 * 60); // 7 days
 const COST_PER_REQUEST = 100000n; // 0.1 USDC 估算
+// ⚠️ 测试模式开关：跳过卖家 stake 检查，允许直接开通道
+// 正式上线时必须改为 false，要求卖家先 stakeAsSeller
+const SKIP_SELLER_STAKE_CHECK = true;
 // ============ ABI ============
 const USDC_ABI = [
     { name: 'balanceOf', type: 'function', inputs: [{ name: 'account', type: 'address' }], outputs: [{ type: 'uint256' }], stateMutability: 'view' },
@@ -180,11 +183,16 @@ async function openChannel(sellerAddress) {
     if (usdcBalance < CHANNEL_DEPOSIT) {
         throw new Error(`USDC 不足开通道。需要: ${formatUnits(CHANNEL_DEPOSIT, 6)} USDC，当前: ${formatUnits(usdcBalance, 6)} USDC`);
     }
-    // 检查卖家是否激活
-    const sellerActive = await checkSellerActive(sellerAddress);
-    if (!sellerActive) {
-        console.log('[警告] 卖家未在合约注册，跳过开通道（使用余额验证模式）');
-        return null;
+    // 检查卖家是否激活（测试模式可跳过）
+    if (!SKIP_SELLER_STAKE_CHECK) {
+        const sellerActive = await checkSellerActive(sellerAddress);
+        if (!sellerActive) {
+            console.log('[警告] 卖家未在合约注册，跳过开通道（使用余额验证模式）');
+            return null;
+        }
+    }
+    else {
+        console.log('[测试模式] 跳过卖家 stake 检查');
     }
     await ensureApproval();
     console.log('[链上] 发送 openChannel 交易...');
