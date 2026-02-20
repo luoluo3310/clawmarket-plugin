@@ -1,13 +1,12 @@
 #!/usr/bin/env node
 /**
- * ClawMarket 本地代理 v2
+ * ClawMarket 本地代理 v3 - 流式微支付版
  *
- * 完整支付通道流程：
- * 1. 管理本地钱包（私钥不出本地）
- * 2. 从 Gateway 获取卖家地址
- * 3. 自动开通道（首次使用时）
- * 4. 每次请求签 ticket
- * 5. 转发到 ClawMarket Gateway
+ * 改动：
+ * - 直接 WebSocket 连 Relay（跳过 Gateway）
+ * - 流式接收 AI 响应，SSE 推给 OpenClaw
+ * - 收到 stream_end 后按实际 token 用量签最终 ticket
+ * - 保留 HTTP 兼容模式（非 stream 请求走旧路径）
  */
 export {};
 //# sourceMappingURL=local-proxy.d.ts.map
